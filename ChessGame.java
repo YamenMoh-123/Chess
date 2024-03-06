@@ -9,6 +9,7 @@ public class ChessGame extends JFrame {
     private int currX = -1;
     private int currY = -1;
     private boolean clicked = false;
+    private String[][] board = new String[8][8];
 
     public ChessGame() {
         super("Chess Game");
@@ -37,12 +38,10 @@ public class ChessGame extends JFrame {
                     System.out.println("Piece clicked: " + currX + currY);
                     System.out.println("Piece clicked: " + source.getX()/47 + source.getY()/40);
                     System.out.println(chessboard[0][0]);
+                    movePiece(board[currX][currY], currX, currY, source.getX()/47, source.getY()/40);
                     clicked = false;
                 }
 
-                if (currY >= 0) {
-                    System.out.println(currX);
-                }
             }
         };
 
@@ -52,12 +51,11 @@ public class ChessGame extends JFrame {
                 square.setName(getChessCoordinate(i, j));
                 square.addActionListener(pieceListener);
                 chessboard[i][j] = square;
-
                 // Set background color for the chessboard pattern
                 if ((i + j) % 2 == 0) {
-                    square.setBackground(Color.WHITE);
+                    square.setBackground(Color.BLUE);
                 } else {
-                    square.setBackground(Color.BLACK);
+                    square.setBackground(Color.RED);
                 }
 
                 add(square);
@@ -82,23 +80,20 @@ public class ChessGame extends JFrame {
 
     private void setPiece(String piece, int row, int col) {
         JButton square = chessboard[row][col];
-        System.out.println("90");
+        board[row][col] = piece;
         square.setText(piece);
     }
 
-    private void movePiece(String piece, int row, int col) {
-        JButton square = chessboard[row][col];
-        System.out.println(square.getX()/47);
-        System.out.println(square.getY()/47);
-        square.setText(piece);
-
+    private void movePiece(String piece, int currRow, int currCol, int row, int col) {
+        setPiece("", currRow, currCol);
+        System.out.println("" + currRow + currCol);
+        System.out.println(piece + row + col);
+        setPiece(piece, row, col);
     }
 
     private String getChessCoordinate(int row, int col) {
         char file = (char) ('a' + col);
         int rank = 8 - row;
-        System.out.println(row);
-        System.out.println(col);
         return String.valueOf(file) + rank;
     }
 
